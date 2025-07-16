@@ -5,7 +5,7 @@ const userAuthenticationMiddleware = (req, res, next) => {
     console.log("--> inside userAuthenticationMiddleware");
     try {
         const { authorization } = req.cookies;
-        console.log("--> authorization", authorization);
+        // console.log("--> authorization", authorization);
         if (!authorization) {
             res.status(401).json({ isSuccess: false, message: "Token not found!" });
         }
