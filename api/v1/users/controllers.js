@@ -29,4 +29,16 @@ const sendUserDetailsController = async (req, res) => {
     }
 };
 
-module.exports = { sendUserBasicInfoController, sendUserDetailsController };
+const updateDisplayPictureController = async (req, res) => {
+    console.log(req.files);
+
+    res.status(201).json({
+        isSuccess: true,
+        message: "file uploaded",
+        data: {
+            file: req.files,
+        },
+    });
+};
+
+module.exports = { sendUserBasicInfoController, sendUserDetailsController, updateDisplayPictureController };
