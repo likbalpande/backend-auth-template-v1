@@ -1,3 +1,4 @@
+const { uploadToCloudinary } = require("../../../config/cloudinary");
 const { UserModel } = require("../../../models/userSchema");
 const { handleGenericAPIError } = require("../../../utils/controllerHelpers");
 
@@ -30,15 +31,24 @@ const sendUserDetailsController = async (req, res) => {
 };
 
 const updateDisplayPictureController = async (req, res) => {
-    console.log(req.files);
+    const uploadedFile = await uploadToCloudinary(req.file.path);
+    const { _id: userId } = req.user;
+
+    console.log("File url -->", uploadedFile.url);
+
+    await UserModel.findByIdAndUpdate(userId, {
+        imageUrl: uploadedFile.url,
+    });
 
     res.status(201).json({
         isSuccess: true,
         message: "file uploaded",
         data: {
-            file: req.files,
+            imageUrl: uploadedFile.url,
         },
     });
+
+    // delete the file from the backend server because its already now on cloudinary
 };
 
 module.exports = { sendUserBasicInfoController, sendUserDetailsController, updateDisplayPictureController };
